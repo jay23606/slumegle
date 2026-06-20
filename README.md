@@ -1,6 +1,6 @@
 # slumegle
 
-**[Try it live](https://raw.githack.com/jay23606/p2p-webcams/main/index.html)**
+**[Try it live](https://jay23606.github.io/slumegle/)**
 
 A minimal Omegle-style random video + text chat. Two strangers who open the same
 URL get paired automatically; one button cycles you to the next stranger.
@@ -50,41 +50,19 @@ All files must sit together in the same directory at the site root.
 
 ## Run it
 
-It's a static site — serve the folder:
-
-```
-npx serve .
-```
-
 **HTTPS is required** in practice: browsers block camera/mic on plain `http://`, and
 PWA install / service workers only work over HTTPS (or `localhost`). GitHub Pages,
 githack, and Netlify all provide HTTPS.
 
-Live (via githack): **[raw.githack.com/jay23606/p2p-webcams](https://raw.githack.com/jay23606/p2p-webcams/main/index.html)**
+Live (via githack): **[jay23606.github.io/slumegle](https://jay23606.github.io/slumegle/)**
 
 To test locally, open it in **two tabs** or two browsers. One waits, the other
 matches it. Each tab needs its own camera/mic permission.
-
-## Config
-
-The demo points at the same public Firebase URL used by p2p-webcams. To run your own,
-replace `databaseURL` in `firebaseConfig` and make the `slumegle` node world
-read/write in your Realtime DB rules:
-
-```json
-{
-  "rules": {
-    "slumegle": { ".read": true, ".write": true }
-  }
-}
-```
 
 ## Limitations / notes
 
 - **One-to-one only**, by design (classic Omegle). Group mode would mean tracking multiple simultaneous calls.
 - **No persistent identity.** PeerJS assigns a fresh random id each page load — no accounts, no stable way to recognize a returning stranger. A blocking feature, for instance, could only be session-scoped without real backend identity.
-- **No moderation, no age gate.** This is a demo. An unmoderated public stranger-video service carries real safety and abuse obligations — think hard before pointing it at the open internet.
 - **No TURN server.** Connections rely on default STUN, so two users behind strict/symmetric NATs may match but fail to see each other. Adding a TURN relay (Twilio, Metered, self-hosted coturn) fixes that.
-- **Screen sharing is desktop-only** — `getDisplayMedia()` is unsupported on most mobile browsers, and sharing your screen with a stranger is a privacy footgun worth a confirmation prompt before going public.
 - **IP-geolocation free tiers are rate-limited.** Fine for testing and modest use; real volume needs a keyed provider.
 - The matchmaker reads the whole lobby per search — fine for small scale, but it can get racy if the app ever gets popular.
