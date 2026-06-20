@@ -5,9 +5,7 @@
 A minimal Omegle-style random video + text chat. Two strangers who open the same
 URL get paired automatically; one button cycles you to the next stranger.
 
-Built in the same spirit as [p2p-webcams](https://github.com/jay23606/p2p-webcams)
-and [p2p-chat](https://github.com/jay23606/p2p-chat): plain JS, a few tiny helper
-methods, no framework, no build step. The whole app is a single `index.html` plus a
+Plain JS, a few tiny helper methods, no framework, no build step. The whole app is a single `index.html` plus a
 PWA manifest, service worker, and icons.
 
 ## Features
