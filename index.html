@@ -212,19 +212,28 @@
             msg.disabled = true;
         };
 
-        // ---- matchmaking: grab a waiting stranger, else wait to be grabbed ----
+        // ---- matchmaking: atomically grab a waiting stranger, else advertise self ----
         const search = () => {
             searching = true;
             say('Looking for a stranger…');
             clearTimeout(searchTimer);
-            lobby.once('value').then((snap) => {
-                let pick = null;
-                snap.forEach((child) => { if (!pick && child.val() !== peer.id) pick = child; });
-                if (pick) {
-                    pick.ref.remove();              // claim them
-                    connectTo(pick.val());
+            let claimedId = null;
+            lobby.transaction((current) => {
+                claimedId = null;                       // reset each run (txn may retry)
+                current = current || {};
+                for (const k in current) {
+                    if (current[k] !== peer.id) {       // a waiting stranger that isn't us
+                        claimedId = current[k];
+                        delete current[k];              // claim them, atomically
+                        return current;
+                    }
+                }
+                current[myKey] = peer.id;               // nobody waiting → advertise self
+                return current;
+            }).then(() => {
+                if (claimedId) {
+                    connectTo(claimedId);
                 } else {
-                    lobby.child(myKey).set(peer.id); // advertise self and wait
                     lobby.child(myKey).onDisconnect().remove();
                     searchTimer = setTimeout(() => {
                         if (searching) say('Still looking… not many people around right now.');
