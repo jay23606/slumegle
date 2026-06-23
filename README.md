@@ -63,4 +63,3 @@ matches it. Each tab needs its own camera/mic permission.
 - **No persistent identity.** PeerJS assigns a fresh random id each page load — no accounts, no stable way to recognize a returning stranger. A blocking feature, for instance, could only be session-scoped without real backend identity.
 - **No TURN server.** Connections rely on default STUN, so two users behind strict/symmetric NATs may match but fail to see each other. Adding a TURN relay (Twilio, Metered, self-hosted coturn) fixes that.
 - **IP-geolocation free tiers are rate-limited.** Fine for testing and modest use; real volume needs a keyed provider.
-- The matchmaker reads the whole lobby per search — fine for small scale, but it can get racy if the app ever gets popular.
