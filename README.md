@@ -52,7 +52,7 @@ All files must sit together in the same directory at the site root.
 PWA install / service workers only work over HTTPS (or `localhost`). GitHub Pages,
 githack, and Netlify all provide HTTPS.
 
-Live (via githack): **[jay23606.github.io/slumegle](https://jay23606.github.io/slumegle/)**
+Live: **[jay23606.github.io/slumegle](https://jay23606.github.io/slumegle/)**
 
 To test locally, open it in **two tabs** or two browsers. One waits, the other
 matches it. Each tab needs its own camera/mic permission.
